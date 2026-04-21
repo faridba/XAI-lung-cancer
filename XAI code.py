@@ -29,9 +29,10 @@ import joblib
 
 # In[2]:
 
-
-X_GSE89843, y_GSE89843 = pd.read_csv('C:/Users/farid/xai paper/GSE89843/Data/GSE89843_Normalized_MaxMean_Symbols.csv', index_col=0).T, pd.read_csv('C:/Users/farid/xai paper/GSE89843/Data/GSE89843_cancer_type.csv', index_col=0)
-X_GSE207586, y_GSE207586 = pd.read_csv('C:/Users/farid/xai paper/GSE207586/Data/GSE207586_Normalized_MaxMean_Symbols.csv', index_col=0).T, pd.read_csv('C:/Users/farid/xai paper/GSE207586/Data/GSE207586_cancer_type.csv', index_col=0)
+path_to_data_1 = 'path/to/data'
+path_to_data_2 = 'path/to/data'
+X_GSE89843, y_GSE89843 = pd.read_csv(os.path.join(path_to_data_1, 'Data/GSE89843_Normalized_MaxMean_Symbols.csv'), index_col=0).T, pd.read_csv(os.path.join(path_to_data_1, 'Data/GSE89843_cancer_type.csv'), index_col=0)
+X_GSE207586, y_GSE207586 = pd.read_csv(os.path.join(path_to_data_2, 'Data/GSE207586_Normalized_MaxMean_Symbols.csv'), index_col=0).T, pd.read_csv(os.path.join(path_to_data_2, 'GSE207586/Data/GSE207586_cancer_type.csv'), index_col=0)
 
 X_GSE89843.index = X_GSE89843.index.str.replace('.', '-').str.replace('HC', 'Healthy Control')
 y_GSE89843.index = y_GSE89843['subject_id']
@@ -171,7 +172,7 @@ models_config = {
 }
 
 # --- 3. Main Loop with mRMR ---
-path_save = 'C:/Users/farid/xai paper'
+path_save = 'path/to/model'
 path_save_fs = os.path.join(path_save, 'saved_features')
 path_models_fs = os.path.join(path_save, 'saved_models')
 os.makedirs(path_save_fs, exist_ok=True)
@@ -541,8 +542,9 @@ def get_deseq2_genes(raw_counts_df, metadata_df, target_col, design_factor,
 
 
 from sklearn.model_selection import RepeatedStratifiedKFold
-X_GSE89843_counts = pd.read_csv('C:/Users/farid/xai paper/GSE89843/Data/GSE89843_Raw_Counts_Symbols.csv', index_col=0).T
-X_GSE207586_counts = pd.read_csv('C:/Users/farid/xai paper/GSE207586/Data/GSE207586_Raw_Counts_Symbols.csv', index_col=0).T
+
+X_GSE89843_counts = pd.read_csv(os.path.join(path_to_data_1, 'GSE89843_Raw_Counts_Symbols.csv'), index_col=0).T
+X_GSE207586_counts = pd.read_csv(os.path.join(path_to_data_2, 'GSE207586_Raw_Counts_Symbols.csv'), index_col=0).T
 X_GSE89843_counts.index = X_GSE89843_counts.index.str.replace('.', '-').str.replace('HC', 'Healthy Control')
 a = []
 for i in X_GSE207586_counts.index.str.split('.'):
@@ -614,7 +616,7 @@ sig_genes
 # In[29]:
 
 
-stats_results_gse20189 = pd.read_csv('C:/Users/farid/OneDrive/Documents/GSE20189_stats_table.csv', index_col=0)
+stats_results_gse20189 = pd.read_csv('GSE20189_stats_table.csv', index_col=0)
 stats_results_gse20189.loc[['SLC14A1', 'JUND', 'ARHGAP6', 'MPI', 'SCGB1A1', 'IGKC', 'ZCCHC4', 'FTH1', 'GRB10', 'FZD1']].to_excel('limma_analysis.xlsx')
 
 
